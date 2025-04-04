@@ -1,0 +1,39 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+interface PizzasProps {
+  _id: string;
+  nome: string;
+  descricao: string;
+  preco: number;
+  popularidade: number;
+  imagem: string;
+}
+function App() {
+  const [pizzas, setPizzas] = useState<PizzasProps[]>([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/pizzas")
+      .then(response => setPizzas(response.data))
+      .catch(error => console.error("Erro ao buscar pizzas:", error));
+  }, []);
+
+  return (
+    <div>
+      <h1>Menu de Pizzas</h1>
+      <ul>
+        {pizzas.map(pizza => (
+          <li key={pizza._id}>
+            <img src={`http://localhost:5000${pizza.imagem}`} alt={pizza.nome} width="150" />
+            <h2>{pizza.nome}</h2>
+            <p>{pizza.descricao}</p>
+            <p>Preço: R$ {pizza.preco.toFixed(2)}</p>
+            <p>Popularidade: {pizza.popularidade} ⭐</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
