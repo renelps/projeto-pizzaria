@@ -14,29 +14,23 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.post('/', upload.array('imagens'), async (req, res) => {
+router.post('/', upload.single('imagem'), async (req, res) => {
   try {
-    const pizzasData = JSON.parse(req.body.pizzas);
+    const { nome, descricao, preco, popularidade, categoria, ingredientes, disponivel, tempo_preparo } = req.body;
 
-    if (!Array.isArray(pizzasData)) {
-      return res.status(400).json({ erro: 'O corpo da requisição deve conter um array de pizzas' });
-    }
+    const novaPizza = await Pizza.create({
+      nome,
+      descricao,
+      preco,
+      popularidade,
+      categoria,
+      ingredientes: ingredientes.split(','),
+      imagem: req.file ? `/uploads/${req.file.filename}` : null,
+      disponivel: disponivel === 'true',
+      tempo_preparo
+    });
 
-    const pizzasCriadas = await Pizza.insertMany(
-      pizzasData.map((pizza, index) => ({
-        nome: pizza.nome,
-        descricao: pizza.descricao,
-        preco: pizza.preco,
-        popularidade: pizza.popularidade,
-        categoria: pizza.categoria,
-        ingredientes: pizza.ingredientes.split(','),
-        imagem: req.files[index] ? `/uploads/${req.files[index].filename}` : null,
-        disponivel: pizza.disponivel === 'true',
-        tempo_preparo: pizza.tempo_preparo
-      }))
-    );
-
-    res.status(201).json(pizzasCriadas);
+    res.status(201).json(novaPizza);
   } catch (error) {
     res.status(400).json({ erro: error.message });
   }
