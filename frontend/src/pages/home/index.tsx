@@ -125,7 +125,7 @@ export function Home() {
 
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/pizzas")
+    axios.get(`${import.meta.env.VITE_API_URL}/api/pizzas`)
     .then((response) => setPizzas(response.data))
     .catch((error) => console.error("Error ao buscar pizzas", error))
   }, [])
@@ -144,7 +144,7 @@ export function Home() {
 
             {pizzas.length > 0 && pizzas.map((item) => (
               <PizzaCard key={item._id}>
-                <img src={`http://localhost:5000${item.imagem}`} alt={""} />
+                <img src={`${import.meta.env.VITE_API_URL}${item.imagem}`} alt={item.nome} />
                 <p>{item.nome}</p>
                 <p>{item.ingredientes.slice(0, 5)}{item.ingredientes.length > 20 && '...'}</p>
                   <div>
