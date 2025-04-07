@@ -9,8 +9,6 @@ const Container = styled.main`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-
 `
 
 const ImageSection = styled.section`
