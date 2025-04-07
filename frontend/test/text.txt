@@ -1,39 +1,123 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+const express = require('express');
+const multer = require('multer');
+const Pizza = require('../models/Pizza');
 
-interface PizzasProps {
-  _id: string;
-  nome: string;
-  descricao: string;
-  preco: number;
-  popularidade: number;
-  imagem: string;
-}
-function App() {
-  const [pizzas, setPizzas] = useState<PizzasProps[]>([]);
+const router = express.Router();
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/pizzas")
-      .then(response => setPizzas(response.data))
-      .catch(error => console.error("Erro ao buscar pizzas:", error));
-  }, []);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+const upload = multer({ storage });
 
-  return (
-    <div>
-      <h1>Menu de Pizzas</h1>
-      <ul>
-        {pizzas.map(pizza => (
-          <li key={pizza._id}>
-            <img src={`http://localhost:5000${pizza.imagem}`} alt={pizza.nome} width="150" />
-            <h2>{pizza.nome}</h2>
-            <p>{pizza.descricao}</p>
-            <p>Preço: R$ {pizza.preco.toFixed(2)}</p>
-            <p>Popularidade: {pizza.popularidade} ⭐</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+router.post('/', upload.array('imagens'), async (req, res) => {
+  try {
+    const pizzasData = req.body.pizzas;
 
-export default App;
+    if (!Array.isArray(pizzasData)) {
+      return res.status(400).json({ erro: 'O corpo da requisição deve conter um array de pizzas' });
+    }
+
+    const pizzasCriadas = await Pizza.insertMany(
+      pizzasData.map((pizza, index) => ({
+        nome: pizza.nome,
+        descricao: pizza.descricao,
+        preco: pizza.preco,
+        popularidade: pizza.popularidade,
+        categoria: pizza.categoria,
+        ingredientes: pizza.ingredientes.split(','),
+        imagem: req.files[index] ? `/uploads/${req.files[index].filename}` : null,
+        disponivel: pizza.disponivel === 'true',
+        tempo_preparo: pizza.tempo_preparo
+      }))
+    );
+
+    res.status(201).json(pizzasCriadas);
+  } catch (error) {
+    res.status(400).json({ erro: error.message });
+  }
+});
+
+
+router.get('/', async (req, res) => {
+  try {
+    const pizzas = await Pizza.find();
+    res.json(pizzas);
+  } catch (error) {
+    res.status(500).json({ erro: error.message });
+  }
+});
+
+
+router.get('/:id', async (req, res) => {
+  try {
+    const pizza = await Pizza.findById(req.params.id);
+    if (!pizza) {
+      return res.status(404).json({ erro: 'Pizza não encontrada' });
+    }
+    res.json(pizza);
+  } catch (error) {
+    res.status(500).json({ erro: error.message });
+  }
+});
+
+
+router.put('/:id', upload.single('imagem'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nome, descricao, preco, popularidade, categoria, ingredientes, disponivel, tempo_preparo } = req.body;
+
+    const dadosAtualizados = {
+      nome,
+      descricao,
+      preco,
+      popularidade,
+      categoria,
+      ingredientes: ingredientes ? ingredientes.split(',') : undefined,
+      disponivel: disponivel === 'true',
+      tempo_preparo
+    };
+
+    if (req.file) {
+      dadosAtualizados.imagem = `/uploads/${req.file.filename}`;
+    }
+
+    const pizzaAtualizada = await Pizza.findByIdAndUpdate(id, dadosAtualizados, { new: true });
+
+    if (!pizzaAtualizada) {
+      return res.status(404).json({ erro: 'Pizza não encontrada' });
+    }
+
+    res.status(200).json(pizzaAtualizada);
+  } catch (error) {
+    res.status(500).json({ erro: error.message });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const pizzaRemovida = await Pizza.findByIdAndDelete(req.params.id);
+    if (!pizzaRemovida) {
+      return res.status(404).json({ erro: 'Pizza não encontrada' });
+    }
+    res.status(200).json({ mensagem: 'Pizza removida com sucesso' });
+  } catch (error) {
+    res.status(500).json({ erro: error.message });
+  }
+});
+
+
+router.delete('/', async (req, res) => {
+  try {
+    await Pizza.deleteMany({});
+    res.status(200).json({ mensagem: 'Todas as pizzas foram removidas' });
+  } catch (error) {
+    res.status(500).json({ erro: error.message });
+  }
+});
+
+module.exports = router;
