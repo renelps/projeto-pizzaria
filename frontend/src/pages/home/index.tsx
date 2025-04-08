@@ -47,7 +47,7 @@ const PizzasSection = styled.section`
 `
 
 const PizzaCard = styled.div`
- display: flex;
+  display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -63,14 +63,14 @@ const PizzaCard = styled.div`
 
   > p {
     font-size: 20px;
-    padding: 10px 0;
+    padding: 30px 0 0 0;
   }
 
   p:nth-of-type(2) { 
     color: #808080;
     text-align: center;
-    padding: 0 10px;
-    font-size: 17px;
+    padding: 10px 10px;
+    font-size: 15px;
   }
 
   div {
@@ -84,7 +84,47 @@ const PizzaCard = styled.div`
     p:nth-of-type(2) { 
       display: flex;
       align-items: center;
+    }
   }
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+
+    img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+
+    > p {
+      font-size: 13px;
+      padding: 15px 0 0 0;
+    }
+
+    p:nth-of-type(2) { 
+      color: #808080;
+      text-align: center;
+      padding: 4px 6px;
+      font-size: 10px;
+    }
+
+    div {
+      display: flex;
+      width: 100%;
+      padding: 3px 6px;
+      font-size: 10px;
+      align-items: center;
+      justify-content: space-between;
+
+      p:nth-of-type(2) { 
+        display: flex;
+        align-items: center;
+      }
+    }
+
   }
 
   
@@ -93,17 +133,23 @@ const PizzaCard = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(4, 1fr); 
   gap: 20px;
   width: 100%;
   justify-content: center;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
   @media (max-width: 600px) {
-    grid-template-columns: repeat(1, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+
   }
 `;
 
@@ -142,7 +188,7 @@ export function Home() {
 
             {pizzas.length > 0 && pizzas.map((item) => (
               <PizzaCard key={item._id}>
-                <img src={`${import.meta.env.VITE_API_URL}${item.imagem}`} alt={item.nome} />
+                <img src={item.imagem} alt={item.nome} />
                 <p>{item.nome}</p>
                 <p>{item.ingredientes.slice(0, 5)}{item.ingredientes.length > 20 && '...'}</p>
                   <div>

@@ -1,22 +1,17 @@
 const express = require('express');
 const multer = require('multer');
 const Pizza = require('../models/Pizza');
+const { storage } = require('../config/cloudinary');
 
 const router = express.Router();
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  }
-});
 const upload = multer({ storage });
 
 router.post('/', upload.single('imagem'), async (req, res) => {
   try {
-    const { nome, descricao, preco, popularidade, categoria, ingredientes, disponivel, tempo_preparo } = req.body;
+    const {
+      nome, descricao, preco, popularidade,
+      categoria, ingredientes, disponivel, tempo_preparo
+    } = req.body;
 
     const novaPizza = await Pizza.create({
       nome,
@@ -25,7 +20,7 @@ router.post('/', upload.single('imagem'), async (req, res) => {
       popularidade,
       categoria,
       ingredientes: ingredientes.split(','),
-      imagem: req.file ? `/uploads/${req.file.filename}` : null,
+      imagem: req.file?.path || null,
       disponivel: disponivel === 'true',
       tempo_preparo
     });
@@ -60,7 +55,10 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', upload.single('imagem'), async (req, res) => {
   try {
     const { id } = req.params;
-    const { nome, descricao, preco, popularidade, categoria, ingredientes, disponivel, tempo_preparo } = req.body;
+    const {
+      nome, descricao, preco, popularidade,
+      categoria, ingredientes, disponivel, tempo_preparo
+    } = req.body;
 
     const dadosAtualizados = {
       nome,
@@ -74,7 +72,7 @@ router.put('/:id', upload.single('imagem'), async (req, res) => {
     };
 
     if (req.file) {
-      dadosAtualizados.imagem = `/uploads/${req.file.filename}`;
+      dadosAtualizados.imagem = req.file.path;
     }
 
     const pizzaAtualizada = await Pizza.findByIdAndUpdate(id, dadosAtualizados, { new: true });
