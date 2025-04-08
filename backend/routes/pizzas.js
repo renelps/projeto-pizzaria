@@ -27,8 +27,10 @@ router.post('/', upload.single('imagem'), async (req, res) => {
 
     res.status(201).json(novaPizza);
   } catch (error) {
-    res.status(400).json({ erro: error.message });
+    console.error('Erro ao criar pizza:', error);
+    res.status(500).json({ erro: error.message });
   }
+  
 });
 
 router.get('/', async (req, res) => {
