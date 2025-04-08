@@ -1,10 +1,10 @@
 const express = require('express');
 const multer = require('multer');
+const { storage } = require('../config/cloudinary');
 const Pizza = require('../models/Pizza');
-const multer = require('multer');
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage });
 
 router.post('/', upload.single('imagem'), async (req, res) => {
   try {
@@ -27,10 +27,8 @@ router.post('/', upload.single('imagem'), async (req, res) => {
 
     res.status(201).json(novaPizza);
   } catch (error) {
-    console.error('Erro ao criar pizza:', error);
     res.status(500).json({ erro: error.message, stack: error.stack });
   }
-  
 });
 
 router.get('/', async (req, res) => {
@@ -111,3 +109,4 @@ router.delete('/', async (req, res) => {
 });
 
 module.exports = router;
+
