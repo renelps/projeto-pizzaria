@@ -11,11 +11,11 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'pizzas',
-    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
-  },
+    allowed_formats: ['jpg', 'png', 'jpeg', 'webp']
+  }
 });
 
 module.exports = {
   cloudinary,
-  storage,
+  storage
 };
