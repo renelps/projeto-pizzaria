@@ -10,7 +10,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'pizzas', // nome da pasta lá no Cloudinary
+    folder: 'pizzas',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
   },
 });
