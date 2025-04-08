@@ -8,9 +8,10 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary,
   params: {
     folder: 'pizzas',
+    resource_type: 'auto',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp']
   }
 });
