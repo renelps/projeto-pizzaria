@@ -1,19 +1,18 @@
 import styled from "styled-components"
-import Image from '../../assets/images/mahsa-shamshiri-fard-32XPRn5hWX0-unsplash.jpg';
-import { PizzaList } from "../../components/pizzasList";
+import ImageDrinks from "../../assets/images/james-yarema-wQFmDhrvVSs-unsplash.jpg"
 
-
-const Container = styled.main`
+const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 100%;
 `
 
-const ImageSection = styled.section`
+const ContainerImg = styled.div`
   width: 100%;
   height: 400px;
-  background-image: url(${Image});
+  background-image: url(${ImageDrinks});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -32,17 +31,20 @@ const ImageSection = styled.section`
   @media (min-width: 1200px) {
     height: 500px;
   }
-
 `
 
 
-export function Home() {
+export function SectionDrinks() {
+
+
+
 
   return (
-    <Container>
-      <ImageSection />
-      <PizzaList />
-        
+    <Container> 
+      <ContainerImg/>
+
+
+
     </Container>
   )
 }

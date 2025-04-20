@@ -10,6 +10,9 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: Arial, Helvetica, sans-serif;
+    :focus {
+    outline: none !important;
+  }
   }
 
 

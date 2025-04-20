@@ -10,6 +10,15 @@ const theme: DefaultTheme = {
   fonts: {
     main: "'Poppins', sans-serif",
   },
+  media: {
+    xs: '(max-width: 480px)',
+    sm: '(max-width: 600px)',
+    md: '(max-width: 768px)',
+    lg: '(max-width: 1024px)',
+    xl: '(max-width: 1200px)',
+    xxl: '(max-width: 1400px)',
+  },
+
 };
 
 export { theme };

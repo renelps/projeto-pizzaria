@@ -1,30 +1,24 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const path = require("path");
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv');
 
-const pizzaRoutes = require("./routes/pizzas");
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Servir arquivos estáticos (ex: imagens)
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// Rotas
-app.use("/api/pizzas", pizzaRoutes);
-
-// Conexão com MongoDB usando variável de ambiente
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB conectado"))
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log("🔥 Conectado ao MongoDB"))
   .catch(err => console.error("Erro ao conectar ao MongoDB:", err));
 
-// Porta
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+const pizzaRoutes = require('./routes/pizzas');
+app.use('/api/pizzas', pizzaRoutes);
+
+app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));

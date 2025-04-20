@@ -1,68 +1,80 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { CartIconSvg } from "../icons/cartIconSvg"
-import { Link } from "react-router-dom"
+import { useContext } from "react"
+import { PizzasContext } from "../../context"
 
-
-const Container = styled.header`
+const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 10px;
-  color: #626262;
-  font-weight: bold;
+  padding: 0 10px;
   width: 100%;
-  border-bottom: 1px solid #b1b0b1;
-  cursor: pointer;
 
   a {
-    border: none;
-    text-decoration: none;
-    color: inherit;
-    border: none;
     outline: none;
-  }
-`
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+    outline: none;
+    border: none;
+    color: none;
+    color: black;
 
-const Logo = styled.div`
+    &:focus,
+    &:active {
+      outline: none;
+      box-shadow: none;
+      background: transparent;
+    }
 
-  h2 {
     span {
       color: red;
     }
-  }
 
+    h2 {
+      font-size: 18px;
+    }
+  }
 `
 
-const CartIcon = styled.div`
-  padding-right: 10px;
+const ContainerCart = styled.div`
   position: relative;
-  cursor: pointer;
+  padding: 2px 0;
   p {
     position: absolute;
-    top: -2px;
-    right: -0.2px;
-    background-color: red;
+    text-align: center;
     color: white;
-    padding: 0 4px;
-    font-size: 12px;
-    border-radius: 50%; 
+    font-size: 10px;
+    height: 12px;
+    width: 12px;
+    background-color: red;
+    top: 1px;
+    right: -3px;
+    border-radius: 50%;
+
   }
+
 `
-export function Header() {
+
+export function Header(){
+
+  const { qtdCart } = useContext(PizzasContext)
+
+
+
   return (
     <Container>
-      <Link to="/">
-        <Logo>
-          <h2>Pizzaria <span>Oliveiras</span></h2>
-        </Logo>
-      </Link>
-      
-      <Link to="/cart">
-        <CartIcon>
+      <div>
+        <Link to="/"><h2>Pizzaria <span>Oliveiras</span></h2></Link>
+      </div>
+
+      <ContainerCart>
+        <Link to="/cart">
           <CartIconSvg />
-          <p>1</p>
-        </CartIcon>
-      </Link>
+          {qtdCart !== 0 && <p>{qtdCart}</p>}
+        </Link>
+      </ContainerCart>
     </Container>
   )
 }

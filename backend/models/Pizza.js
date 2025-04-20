@@ -7,7 +7,7 @@ const PizzaSchema = new mongoose.Schema({
   popularidade: { type: Number, default: 0, min: 0, max: 5 },
   categoria: { type: String, enum: ['Tradicional', 'Especial', 'Doce'], required: true },
   ingredientes: { type: [String], required: true },
-  imagem: { type: String, required: true }, // Caminho da imagem no servidor
+  imagem: { type: String, required: true },
   disponivel: { type: Boolean, default: true },
   tempo_preparo: { type: Number, required: true }
 }, { timestamps: true });
