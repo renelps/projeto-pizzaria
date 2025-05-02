@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Layout } from '../components/layout'
+import { Layout } from '../components/layout';
 import { Home } from '../pages/home';
 import { Detail } from '../pages/detail';
 import { Cart } from '../pages/cart';
@@ -10,18 +10,18 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <Home />,
       },
       {
         path: '/detail/:id',
-        element: <Detail />
+        element: <Detail />,
       },
       {
         path: '/cart',
-        element: <Cart />
-      }
-    ]
-  }
-])
+        element: <Cart />,
+      },
+    ],
+  },
+]);
 
-export { router }
+export { router };

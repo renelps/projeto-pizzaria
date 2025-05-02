@@ -1,15 +1,15 @@
-import { useContext } from "react"
-import { PizzasContext } from "../../context"
-import styled from "styled-components"
+import { useContext } from 'react';
+import { PizzasContext } from '../../context';
+import styled from 'styled-components';
+import { FormatPrice } from '../../utils/formatPrice';
 
 const CartContainer = styled.div`
-  max-width: 900px;
+  max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
-  background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-`
+`;
 
 const CartItem = styled.div`
   display: flex;
@@ -18,14 +18,15 @@ const CartItem = styled.div`
   gap: 20px;
   padding: 15px 0;
   border-bottom: 1px solid #eee;
+  color: #eee;
 
   img {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     border-radius: 8px;
     object-fit: cover;
   }
-`
+`;
 
 const ItemInfo = styled.div`
   flex: 1;
@@ -38,9 +39,9 @@ const ItemInfo = styled.div`
   p {
     margin: 4px 0;
     font-size: 14px;
-    color: #666;
+    color: #eee;
   }
-`
+`;
 
 const QuantityControls = styled.div`
   display: flex;
@@ -54,7 +55,7 @@ const QuantityControls = styled.div`
     border-radius: 4px;
     font-weight: bold;
     cursor: pointer;
-    color: #fff;
+    color: #eee;
     background-color: #317d24;
 
     &:last-child {
@@ -67,22 +68,29 @@ const QuantityControls = styled.div`
     min-width: 20px;
     text-align: center;
   }
-`
+`;
 
 const TotalPrice = styled.div`
   font-weight: bold;
   font-size: 16px;
-`
+`;
+
+const TotalCart = styled.div`
+  margin-top: 10px;
+  span {
+    color: #eee;
+  }
+`;
 
 export function Cart() {
-  const { handleAddToCart } = useContext(PizzasContext)
+  const { handleAddToCart, incrementPizza, decrementPizza, total } = useContext(PizzasContext);
 
   return (
     <CartContainer>
       {handleAddToCart.length === 0 ? (
         <p>O carrinho está vazio.</p>
       ) : (
-        handleAddToCart.map(pizza => (
+        handleAddToCart.map((pizza) => (
           <CartItem key={pizza._id}>
             <img src={pizza.imagem} alt={pizza.nome} />
             <ItemInfo>
@@ -90,14 +98,15 @@ export function Cart() {
               <p>Preço: R$ {pizza.preco.toFixed(2)}</p>
             </ItemInfo>
             <QuantityControls>
-              <button>-</button>
+              <button onClick={() => decrementPizza(pizza._id)}>-</button>
               <span>{pizza.qtd}</span>
-              <button>+</button>
+              <button onClick={() => incrementPizza(pizza._id)}>+</button>
             </QuantityControls>
             <TotalPrice>R$ {(pizza.preco * pizza.qtd).toFixed(2)}</TotalPrice>
           </CartItem>
         ))
       )}
+      <TotalCart>{handleAddToCart.length > 0 && <span>Total a pagar {FormatPrice(total)}</span>}</TotalCart>
     </CartContainer>
-  )
+  );
 }

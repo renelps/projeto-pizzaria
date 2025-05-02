@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom"
-import styled from "styled-components"
-import { CartIconSvg } from "../icons/cartIconSvg"
-import { useContext } from "react"
-import { PizzasContext } from "../../context"
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { CartIconSvg } from '../icons/cartIconSvg';
+import { useContext } from 'react';
+import { PizzasContext } from '../../context';
 
 const Container = styled.div`
   display: flex;
@@ -33,10 +33,15 @@ const Container = styled.div`
     }
 
     h2 {
-      font-size: 18px;
+      font-size: 24px;
+      color: white;
+
+      @media ${({ theme }) => theme.media.md} {
+        font-size: 18px;
+      }
     }
   }
-`
+`;
 
 const ContainerCart = styled.div`
   position: relative;
@@ -52,21 +57,20 @@ const ContainerCart = styled.div`
     top: 1px;
     right: -3px;
     border-radius: 50%;
-
   }
+`;
 
-`
-
-export function Header(){
-
-  const { qtdCart } = useContext(PizzasContext)
-
-
+export function Header() {
+  const { qtdCart } = useContext(PizzasContext);
 
   return (
     <Container>
       <div>
-        <Link to="/"><h2>Pizzaria <span>Oliveiras</span></h2></Link>
+        <Link to="/">
+          <h2>
+            Pizzaria <span>Oliveiras</span>
+          </h2>
+        </Link>
       </div>
 
       <ContainerCart>
@@ -76,5 +80,5 @@ export function Header(){
         </Link>
       </ContainerCart>
     </Container>
-  )
+  );
 }

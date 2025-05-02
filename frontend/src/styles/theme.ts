@@ -18,7 +18,6 @@ const theme: DefaultTheme = {
     xl: '(max-width: 1200px)',
     xxl: '(max-width: 1400px)',
   },
-
 };
 
 export { theme };

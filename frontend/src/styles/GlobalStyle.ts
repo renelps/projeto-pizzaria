@@ -1,6 +1,5 @@
-import { createGlobalStyle} from 'styled-components'
-
-
+import { createGlobalStyle } from 'styled-components';
+import ImageDetail from '../assets/images/fundoDetail.png';
 export const GlobalStyle = createGlobalStyle`
   * {
     padding: 0;
@@ -10,10 +9,13 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: Arial, Helvetica, sans-serif;
-    :focus {
+    background: url(${ImageDetail});
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+
+  :focus {
     outline: none !important;
   }
-  }
-
-
-`
+`;
