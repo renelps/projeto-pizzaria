@@ -2,18 +2,27 @@ import { useContext } from 'react';
 import { PizzasContext } from '../../context';
 import styled from 'styled-components';
 import { FormatPrice } from '../../utils/formatPrice';
+import { Link } from 'react-router-dom';
 
 const CartContainer = styled.div`
+  width: 100%;
   max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  > p {
+    margin-top: 10px;
+    color: white;
+    text-align: center;
+  }
 `;
 
 const CartItem = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
   justify-content: space-between;
   gap: 20px;
   padding: 15px 0;
@@ -25,6 +34,13 @@ const CartItem = styled.div`
     height: 120px;
     border-radius: 8px;
     object-fit: cover;
+  }
+
+  @media ${({ theme }) => theme.media.md} {
+    img {
+      width: 80px;
+      height: 80px;
+    }
   }
 `;
 
@@ -40,6 +56,16 @@ const ItemInfo = styled.div`
     margin: 4px 0;
     font-size: 14px;
     color: #eee;
+  }
+
+  @media ${({ theme }) => theme.media.md} {
+    h3 {
+      font-size: 12px;
+    }
+
+    p {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -68,20 +94,56 @@ const QuantityControls = styled.div`
     min-width: 20px;
     text-align: center;
   }
+
+  @media ${({ theme }) => theme.media.md} {
+    gap: 1px;
+    button {
+      width: 18px;
+      height: 18px;
+    }
+
+    span {
+      font-size: 12px;
+    }
+  }
 `;
 
 const TotalPrice = styled.div`
   font-weight: bold;
   font-size: 16px;
-`;
 
-const TotalCart = styled.div`
-  margin-top: 10px;
-  span {
-    color: #eee;
+  @media ${({ theme }) => theme.media.md} {
+    font-size: 12px;
   }
 `;
 
+const CheckoutSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+
+  span {
+    color: #eee;
+  }
+
+  @media ${({ theme }) => theme.media.md} {
+    span {
+      font-size: 14px;
+    }
+  }
+
+  button {
+    border: none;
+    background: transparent;
+    color: #eee;
+    border: 1px solid rgba(255, 102, 0, 0.3);
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 15px;
+  }
+`;
 export function Cart() {
   const { handleAddToCart, incrementPizza, decrementPizza, total } = useContext(PizzasContext);
 
@@ -106,7 +168,14 @@ export function Cart() {
           </CartItem>
         ))
       )}
-      <TotalCart>{handleAddToCart.length > 0 && <span>Total a pagar {FormatPrice(total)}</span>}</TotalCart>
+      <CheckoutSection>
+        {handleAddToCart.length > 0 && <span>Total a pagar {FormatPrice(total)}</span>}
+        {handleAddToCart.length > 0 && (
+          <Link to="/payment">
+            <button>Finalizar Pedido</button>
+          </Link>
+        )}
+      </CheckoutSection>
     </CartContainer>
   );
 }
