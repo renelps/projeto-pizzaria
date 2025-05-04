@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { FormatIngredientes } from '../../utils/formatIngredientes';
 import { FormatPrice } from '../../utils/formatPrice';
 import { StarIcon } from '../icons/starIcon';
+import { Loading } from '../Loading/index';
+
 const PizzasSection = styled.section`
   display: flex;
   flex-direction: column;
@@ -120,24 +122,28 @@ export function PizzaList() {
 
   return (
     <PizzasSection>
-      <Title>Conheça nossos Cardápios</Title>
-      <Grid>
-        {pizzas.length > 0 &&
-          pizzas.map((item) => (
-            <Card key={item._id} onClick={() => navigate(`/detail/${item._id}`)}>
-              <CardImage src={item.imagem} alt={item.nome} />
-              <CardName>{item.nome}</CardName>
-              <CardIngredientes>{FormatIngredientes(item.ingredientes, 10)}</CardIngredientes>
-              <CardFooter>
-                <PriceText>{FormatPrice(item.preco)}</PriceText>
-                <PopularityWrapper>
-                  {item.popularidade}
-                  <StarIcon />
-                </PopularityWrapper>
-              </CardFooter>
-            </Card>
-          ))}
-      </Grid>
+      <Title>Conheça nossos Cardápios</Title>q{' '}
+      {pizzas.length === 0 ? (
+        <Loading />
+      ) : (
+        <Grid>
+          {pizzas.length > 0 &&
+            pizzas.map((item) => (
+              <Card key={item._id} onClick={() => navigate(`/detail/${item._id}`)}>
+                <CardImage src={item.imagem} alt={item.nome} />
+                <CardName>{item.nome}</CardName>
+                <CardIngredientes>{FormatIngredientes(item.ingredientes, 10)}</CardIngredientes>
+                <CardFooter>
+                  <PriceText>{FormatPrice(item.preco)}</PriceText>
+                  <PopularityWrapper>
+                    {item.popularidade}
+                    <StarIcon />
+                  </PopularityWrapper>
+                </CardFooter>
+              </Card>
+            ))}
+        </Grid>
+      )}
     </PizzasSection>
   );
 }
