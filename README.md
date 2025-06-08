@@ -1,8 +1,20 @@
-# Pizzaria Full Stack Platform
+# 🍕 Pizzaria Full Stack Platform
 
 📅 Abril de 2025 – até o momento
 
-Aplicação completa de gerenciamento para pizzarias, com sistema de pedidos, painel administrativo, autenticação de usuários e integração com APIs externas.
+Uma aplicação completa e robusta para pizzarias, desenvolvida do zero com as melhores práticas de frontend e backend. Essa plataforma oferece uma experiência fluida tanto para clientes quanto para administradores, com foco em performance, escalabilidade e usabilidade.
+
+---
+
+## 🌟 Destaques do Projeto
+
+* 🔄 Integração total entre frontend e backend
+* 🔐 Autenticação moderna com Firebase (e-mail, senha e Google)
+* 🖼️ Upload profissional de imagens com Cloudinary e Multer
+* 📦 API RESTful com testes via Postman
+* 🌍 Localização dinâmica com integração à API do IBGE
+* 💻 Interface moderna e responsiva com React + Styled Components
+* 📊 Painel administrativo completo para gestão de pedidos e produtos
 
 ---
 
@@ -19,28 +31,26 @@ Aplicação completa de gerenciamento para pizzarias, com sistema de pedidos, pa
 
 * **Node.js** + **Express**
 * **MongoDB** com **Mongoose**
-* **Cloudinary** (upload e armazenamento de imagens)
-* **Multer** (gerenciamento de arquivos)
-* **CORS**
-* **Dotenv**
+* **Cloudinary** (armazenamento de imagens)
+* **Multer** (upload de arquivos)
+* **CORS** / **Dotenv** / **Postman**
 
 ### 🔐 Autenticação & Integrações
 
-* **Firebase Authentication** (login com e-mail/senha e com Google)
+* **Firebase Authentication** (login com e-mail/senha e Google)
 * **API do IBGE** (busca dinâmica de estados e municípios)
 
 ---
 
 ## 🚀 Funcionalidades
 
-* Cadastro, edição e exclusão de produtos (pizzas)
-* Upload e exibição de imagens das pizzas
-* Carrinho de compras com atualização de quantidade
-* Finalização de pedidos
-* Autenticação de usuários (Firebase)
-* Busca dinâmica de localização (API do IBGE)
-* Integração completa entre frontend e backend
-* Painel administrativo com gestão de produtos e pedidos
+* 📋 Cadastro, edição e exclusão de produtos (pizzas)
+* 🧺 Carrinho de compras com controle de quantidade
+* 🛒 Finalização de pedidos com persistência
+* 🛡️ Login seguro com Firebase Authentication
+* 🌐 Busca inteligente de estados e cidades via IBGE
+* 🧑‍💼 Painel administrativo com controle total
+* 📤 Upload de imagens com preview e armazenamento em nuvem
 
 ---
 
@@ -62,35 +72,36 @@ npm install
 npm run dev
 ```
 
-Abra no navegador:
+🔗 Acesse:
 
 > [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🤝 Contribuição
+## 🤝 Como Contribuir
 
-1. Faça fork do repositório
-2. Crie uma branch:
+1. Fork o repositório
+2. Crie sua branch:
 
    ```bash
    git checkout -b minha-feature
    ```
-3. Faça alterações e commits:
+3. Faça suas alterações e commits:
 
    ```bash
    git commit -m "feat: descrição da feature"
    ```
-4. Envie para o repositório remoto:
+4. Suba sua branch:
 
    ```bash
    git push origin minha-feature
    ```
-5. Abra um Pull Request
+5. Crie um Pull Request e aguarde análise
 
 ---
 
 ## 📝 Licença
 
 MIT © ReneLPS
+
 
